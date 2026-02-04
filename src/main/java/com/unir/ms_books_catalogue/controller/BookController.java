@@ -2,6 +2,8 @@ package com.unir.ms_books_catalogue.controller;
 
 import com.unir.ms_books_catalogue.data.model.Book;
 import com.unir.ms_books_catalogue.service.BookServices;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -10,15 +12,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
-public class TestController {
+
+@Tag(name = "Books", description = "Operaciones sobre el catálogo de libros")
+public class BookController {
      private final BookServices service;
 
-       public TestController(BookServices service) {
+       public BookController(BookServices service) {
            this.service = service;
        }
 
     // Búsqueda por todos los atributos (individual o combinada)
-    //@Operation(summary="search books")
+    @Operation(summary="search books from filters")
     @GetMapping()
     public List<Book> searchBooks(
             @RequestParam(required = false) String title,
@@ -33,32 +37,32 @@ public class TestController {
         return service.search(title, author, publicationDate, category, isbn, rating, visible);
     }
 
-        //@Operation(summary="get a book given a book id")
+        @Operation(summary="get a book given a book id")
         @GetMapping("/{id}")
         public Book getBook(@PathVariable Long id) {
             return service.getById(id);
         }
 
-        //@Operation(summary="post a book given a book from body")
+        @Operation(summary="post a book given a book from body")
         @PostMapping
         @ResponseStatus(HttpStatus.CREATED)
         public Book create(@RequestBody Book book) {
             return service.create(book);
         }
 
-        //@Operation(summary="put a book given a book id from a body")
+        @Operation(summary="put a book given a book id from a body")
        @PutMapping("/{id}")
         public Book update(@PathVariable Long id, @RequestBody Book book) {
             return service.update(id, book);
         }
 
-        //@Operation(summary="patch a book given a book id from a body")
+        @Operation(summary="patch a book given a book id from a body")
         @PatchMapping("/{id}")
         public Book patch(@PathVariable Long id, @RequestBody Book book) {
             return service.patch(id, book);
         }
 
-        //@Operation(summary="delete a book given a book id")
+        @Operation(summary="delete a book given a book id")
         @DeleteMapping("/{id}")
         @ResponseStatus(HttpStatus.NO_CONTENT)
         public void delete(@PathVariable Long id) {
