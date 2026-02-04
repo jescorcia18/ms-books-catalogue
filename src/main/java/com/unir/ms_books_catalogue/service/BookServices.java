@@ -1,5 +1,6 @@
 package com.unir.ms_books_catalogue.service;
 
+import com.unir.ms_books_catalogue.data.exceptions.BookNotFoundException;
 import com.unir.ms_books_catalogue.data.model.Book;
 import com.unir.ms_books_catalogue.data.repository.BookRepository;
 import jakarta.persistence.criteria.Predicate;
@@ -74,7 +75,7 @@ public class BookServices {
                     existing.setVisible(updated.getVisible());
                     return repository.save(existing);
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Book not found"));
+                .orElseThrow(() -> new  BookNotFoundException(id));
     }
 
     public Book patch(Long id, Book partial) {
@@ -89,15 +90,18 @@ public class BookServices {
                     if (partial.getVisible() != null) existing.setVisible(partial.getVisible());
                     return repository.save(existing);
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Book not found"));
+                .orElseThrow(() -> new  BookNotFoundException(id));
     }
 
     public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new BookNotFoundException(id);
+        }
         repository.deleteById(id);
     }
 
     public Book getById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found"));
+                .orElseThrow(() -> new BookNotFoundException(id));
     }
 }
