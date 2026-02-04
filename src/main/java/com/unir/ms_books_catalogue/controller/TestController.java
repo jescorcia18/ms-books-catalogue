@@ -3,11 +3,8 @@ package com.unir.ms_books_catalogue.controller;
 import com.unir.ms_books_catalogue.data.model.Book;
 import com.unir.ms_books_catalogue.service.BookServices;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,7 +32,7 @@ public class TestController {
     ) {
         return service.search(title, author, publicationDate, category, isbn, rating, visible);
     }
-    /*
+
         //@Operation(summary="get a book given a book id")
         @GetMapping("/{id}")
         public Book getBook(@PathVariable Long id) {
@@ -50,7 +47,7 @@ public class TestController {
         }
 
         //@Operation(summary="put a book given a book id from a body")
-        @PutMapping("/{id}")
+       @PutMapping("/{id}")
         public Book update(@PathVariable Long id, @RequestBody Book book) {
             return service.update(id, book);
         }
@@ -66,7 +63,7 @@ public class TestController {
         @ResponseStatus(HttpStatus.NO_CONTENT)
         public void delete(@PathVariable Long id) {
             service.delete(id);
-        }*/
+        }
     @GetMapping("/ping")
     public String ping() {
         return "OK...pong";
