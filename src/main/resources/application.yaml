@@ -1,6 +1,3 @@
-server:
-  port: 8081
-
 spring:
   application:
     name: ms-books-catalogue
@@ -27,3 +24,13 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+
+springdoc:
+  packages-to-scan: com.unir.ms_books_catalogue.controller
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+  show-actuator: true
+  scan-packages: com.unir.ms_books_catalogue
