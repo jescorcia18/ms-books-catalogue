@@ -1,5 +1,6 @@
 package com.unir.ms_books_catalogue.controller;
 
+import com.unir.ms_books_catalogue.data.Dto.BookSearchResponse;
 import com.unir.ms_books_catalogue.data.model.Book;
 import com.unir.ms_books_catalogue.service.BookServices;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,9 +23,10 @@ public class BookController {
        }
 
     // Búsqueda por todos los atributos (individual o combinada)
-    @Operation(summary="search books from filters")
-    @GetMapping()
-    public List<Book> searchBooks(
+    @Operation(summary = "search books from filters (full-text + facets)")
+    @GetMapping
+    public BookSearchResponse searchBooks(
+            @RequestParam(required = false) String q,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
             @RequestParam(required = false)
@@ -34,12 +36,13 @@ public class BookController {
             @RequestParam(required = false) Integer rating,
             @RequestParam(required = false) Boolean visible
     ) {
-        return service.search(title, author, publicationDate, category, isbn, rating, visible);
+        return service.search(q, title, author, publicationDate, category, isbn, rating, visible);
     }
 
-        @Operation(summary="get a book given a book id")
+
+    @Operation(summary="get a book given a book id")
         @GetMapping("/{id}")
-        public Book getBook(@PathVariable Long id) {
+        public Book getBook(@PathVariable String id) {
             return service.getById(id);
         }
 
@@ -52,20 +55,20 @@ public class BookController {
 
         @Operation(summary="put a book given a book id from a body")
        @PutMapping("/{id}")
-        public Book update(@PathVariable Long id, @RequestBody Book book) {
+        public Book update(@PathVariable String id, @RequestBody Book book) {
             return service.update(id, book);
         }
 
         @Operation(summary="patch a book given a book id from a body")
         @PatchMapping("/{id}")
-        public Book patch(@PathVariable Long id, @RequestBody Book book) {
+        public Book patch(@PathVariable String id, @RequestBody Book book) {
             return service.patch(id, book);
         }
 
         @Operation(summary="delete a book given a book id")
         @DeleteMapping("/{id}")
         @ResponseStatus(HttpStatus.NO_CONTENT)
-        public void delete(@PathVariable Long id) {
+        public void delete(@PathVariable String id) {
             service.delete(id);
         }
     @GetMapping("/ping")

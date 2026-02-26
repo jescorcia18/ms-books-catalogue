@@ -1,22 +1,11 @@
 spring:
   application:
     name: ms-books-catalogue
-  datasource:
-    url: jdbc:h2:mem:catalogue-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+
+  elasticsearch: # se agrega Configuración de ElasticSearch
+    uris: https://21c0ffd9506f4877a09241cd24f630e0.us-central1.gcp.cloud.es.io:9243
+    username: ms-books-catalogue
+    password: DesarrolloUnir01@
 
 eureka:
   client:
@@ -29,8 +18,10 @@ springdoc:
   packages-to-scan: com.unir.ms_books_catalogue.controller
   api-docs:
     path: /v3/api-docs
+    enabled: true
   swagger-ui:
     path: /swagger-ui.html
+    enabled: true
     operations-sorter: alpha
   show-actuator: true
   scan-packages: com.unir.ms_books_catalogue
